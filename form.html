@@ -2,9 +2,8 @@
 <html lang="pt-BR">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <title>BlackFrame - Briefing para Vídeos</title>
-    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;600;700&display=swap">
     <style>
         :root {
             --black: #121212;
@@ -13,22 +12,23 @@
             --light-gray: #3D3D3D;
             --mustard: #FFD700;
             --white: #FFFFFF;
-            --transition: all 0.4s cubic-bezier(0.65, 0, 0.35, 1);
+            --transition: all 0.3s ease;
         }
         
         * {
             margin: 0;
             padding: 0;
             box-sizing: border-box;
+            -webkit-tap-highlight-color: transparent;
         }
         
         body {
-            font-family: 'Montserrat', sans-serif;
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
             background-color: var(--black);
             color: var(--white);
-            line-height: 1.6;
+            line-height: 1.5;
             overflow-x: hidden;
-            scroll-behavior: smooth;
+            -webkit-text-size-adjust: 100%;
         }
         
         /* Navigation */
@@ -37,25 +37,25 @@
             top: 0;
             left: 0;
             width: 100%;
-            background-color: rgba(18, 18, 18, 0.9);
+            background-color: var(--black);
             z-index: 1000;
-            backdrop-filter: blur(10px);
             border-bottom: 1px solid var(--light-gray);
+            padding: 0.8rem 1rem;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);
         }
         
         .nav {
-            max-width: 1200px;
-            margin: 0 auto;
-            padding: 1rem 2rem;
             display: flex;
             justify-content: space-between;
             align-items: center;
+            max-width: 1200px;
+            margin: 0 auto;
         }
         
         .logo {
             color: var(--mustard);
             font-weight: 700;
-            font-size: 1.5rem;
+            font-size: 1.3rem;
             text-decoration: none;
             display: flex;
             align-items: center;
@@ -63,80 +63,76 @@
         
         .logo span {
             display: inline-block;
-            width: 10px;
-            height: 10px;
+            width: 8px;
+            height: 8px;
             background-color: var(--mustard);
-            margin-right: 10px;
+            margin-right: 8px;
             border-radius: 50%;
         }
         
+        .mobile-menu-btn {
+            background: none;
+            border: none;
+            color: var(--white);
+            font-size: 1.8rem;
+            cursor: pointer;
+            display: block;
+            padding: 0.5rem;
+        }
+        
         .nav-links {
+            position: fixed;
+            top: 60px;
+            left: 0;
+            width: 100%;
+            background-color: var(--black);
+            flex-direction: column;
+            align-items: center;
+            padding: 1rem 0;
+            gap: 1rem;
+            transform: translateY(-150%);
+            opacity: 0;
+            transition: transform 0.3s ease, opacity 0.2s ease;
+            z-index: 999;
+            border-bottom: 1px solid var(--light-gray);
+            display: none;
+        }
+        
+        .nav-links.active {
+            transform: translateY(0);
+            opacity: 1;
             display: flex;
-            gap: 2rem;
         }
         
         .nav-link {
             color: var(--white);
             text-decoration: none;
-            font-weight: 600;
-            font-size: 0.9rem;
-            text-transform: uppercase;
-            letter-spacing: 1px;
-            position: relative;
-            padding: 0.5rem 0;
-            transition: var(--transition);
+            font-weight: 500;
+            font-size: 1rem;
+            padding: 0.8rem 1.5rem;
+            width: 100%;
+            text-align: center;
+            transition: color 0.2s ease;
         }
         
         .nav-link:hover {
             color: var(--mustard);
         }
         
-        .nav-link::after {
-            content: '';
-            position: absolute;
-            bottom: 0;
-            left: 0;
-            width: 0;
-            height: 2px;
-            background-color: var(--mustard);
-            transition: var(--transition);
-        }
-        
-        .nav-link:hover::after {
-            width: 100%;
-        }
-        
-        .mobile-menu-btn {
-            display: none;
-            background: none;
-            border: none;
-            color: var(--white);
-            font-size: 1.5rem;
-            cursor: pointer;
-        }
-        
         /* Sections */
         .section {
             min-height: 100vh;
-            padding: 6rem 2rem 2rem;
+            padding: 6rem 1.5rem 2rem;
             max-width: 1200px;
             margin: 0 auto;
-            opacity: 0;
-            transform: translateY(20px);
-            transition: var(--transition);
-        }
-        
-        .section.active {
-            opacity: 1;
-            transform: translateY(0);
         }
         
         .section-title {
-            font-size: 2.5rem;
-            margin-bottom: 2rem;
+            font-size: 1.8rem;
+            margin-bottom: 1.8rem;
             color: var(--mustard);
             position: relative;
-            padding-bottom: 1rem;
+            padding-bottom: 0.8rem;
         }
         
         .section-title::after {
@@ -144,8 +140,8 @@
             position: absolute;
             bottom: 0;
             left: 0;
-            width: 80px;
-            height: 3px;
+            width: 70px;
+            height: 4px;
             background-color: var(--mustard);
         }
         
@@ -156,55 +152,53 @@
             justify-content: center;
             align-items: center;
             text-align: center;
-            background: linear-gradient(rgba(0, 0, 0, 0.7), rgba(0, 0, 0, 0.7)), url('https://images.unsplash.com/photo-1579389083078-4e7018379f7e?ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80') no-repeat center center/cover;
-        }
-        
-        .hero-content {
-            max-width: 800px;
+            background: linear-gradient(rgba(0, 0, 0, 0.8), rgba(0, 0, 0, 0.8)), url('https://images.unsplash.com/photo-1579389083078-4e7018379f7e?ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80') no-repeat center center/cover;
+            padding: 5rem 1.5rem 3rem;
         }
         
         .hero-title {
-            font-size: 3rem;
-            margin-bottom: 1rem;
+            font-size: 2.2rem;
+            margin-bottom: 1.2rem;
             color: var(--mustard);
+            line-height: 1.3;
         }
         
         .hero-subtitle {
-            font-size: 1.2rem;
-            margin-bottom: 2rem;
+            font-size: 1.1rem;
+            margin-bottom: 2.5rem;
             color: var(--white);
             opacity: 0.9;
+            max-width: 600px;
+            margin-left: auto;
+            margin-right: auto;
         }
         
         .scroll-down {
             position: absolute;
-            bottom: 2rem;
+            bottom: 1.5rem;
             left: 50%;
             transform: translateX(-50%);
             color: var(--white);
-            font-size: 1.5rem;
+            font-size: 2rem;
             animation: bounce 2s infinite;
             cursor: pointer;
+            background: none;
+            border: none;
         }
         
         @keyframes bounce {
-            0%, 20%, 50%, 80%, 100% {
-                transform: translateY(0) translateX(-50%);
-            }
-            40% {
-                transform: translateY(-20px) translateX(-50%);
-            }
-            60% {
-                transform: translateY(-10px) translateX(-50%);
-            }
+            0%, 20%, 50%, 80%, 100% { transform: translateY(0) translateX(-50%); }
+            40% { transform: translateY(-15px) translateX(-50%); }
+            60% { transform: translateY(-8px) translateX(-50%); }
         }
         
         /* Form Section */
         .form-container {
             background-color: var(--dark-gray);
-            padding: 2rem;
-            border-radius: 8px;
-            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+            padding: 1.5rem;
+            border-radius: 10px;
+            margin-bottom: 2rem;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
         }
         
         .form-group {
@@ -213,26 +207,28 @@
         
         .form-label {
             display: block;
-            margin-bottom: 0.5rem;
-            font-weight: 600;
+            margin-bottom: 0.8rem;
+            font-weight: 500;
             color: var(--white);
+            font-size: 1rem;
         }
         
-        .form-input, .form-textarea, .form-select {
+        .form-input, .form-textarea {
             width: 100%;
-            padding: 0.8rem 1rem;
+            padding: 1rem;
             background-color: var(--medium-gray);
             border: 1px solid var(--light-gray);
-            border-radius: 4px;
+            border-radius: 8px;
             color: var(--white);
-            font-family: 'Montserrat', sans-serif;
-            transition: var(--transition);
+            font-family: inherit;
+            font-size: 1rem;
+            transition: border-color 0.3s ease, box-shadow 0.3s ease;
         }
         
-        .form-input:focus, .form-textarea:focus, .form-select:focus {
+        .form-input:focus, .form-textarea:focus {
             outline: none;
             border-color: var(--mustard);
-            box-shadow: 0 0 0 2px rgba(255, 215, 0, 0.2);
+            box-shadow: 0 0 0 3px rgba(255, 215, 0, 0.2);
         }
         
         .form-textarea {
@@ -243,37 +239,50 @@
         .radio-group, .checkbox-group {
             display: flex;
             flex-direction: column;
-            gap: 0.5rem;
+            gap: 0.8rem;
         }
         
         .radio-option, .checkbox-option {
             display: flex;
             align-items: center;
-            gap: 0.5rem;
+            gap: 0.8rem;
+            padding: 0.5rem 0;
         }
         
         .radio-input, .checkbox-input {
             accent-color: var(--mustard);
+            width: 20px;
+            height: 20px;
+            min-width: 20px;
+            min-height: 20px;
+        }
+        
+        .checkbox-option-text {
+            display: flex;
+            align-items: center;
+            gap: 0.8rem;
+            width: 100%;
         }
         
         .submit-btn {
             background-color: var(--mustard);
             color: var(--black);
             border: none;
-            padding: 1rem 2rem;
-            font-size: 1rem;
-            font-weight: 700;
-            border-radius: 4px;
+            padding: 1.2rem;
+            width: 100%;
+            font-size: 1.1rem;
+            font-weight: 600;
+            border-radius: 8px;
             cursor: pointer;
-            transition: var(--transition);
-            text-transform: uppercase;
-            letter-spacing: 1px;
-            display: inline-flex;
+            transition: all 0.3s ease;
+            display: flex;
             align-items: center;
-            gap: 0.5rem;
+            justify-content: center;
+            gap: 0.8rem;
+            margin-top: 1.5rem;
         }
         
-        .submit-btn:hover {
+        .submit-btn:hover, .submit-btn:focus {
             background-color: #e6c200;
             transform: translateY(-2px);
             box-shadow: 0 5px 15px rgba(255, 215, 0, 0.3);
@@ -286,21 +295,16 @@
         /* Contact Section */
         .contact-info {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-            gap: 2rem;
-            margin-top: 2rem;
+            grid-template-columns: 1fr;
+            gap: 1.5rem;
+            margin-top: 1.5rem;
         }
         
         .contact-card {
             background-color: var(--dark-gray);
             padding: 1.5rem;
-            border-radius: 8px;
-            transition: var(--transition);
-        }
-        
-        .contact-card:hover {
-            transform: translateY(-5px);
-            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
+            border-radius: 10px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
         }
         
         .contact-title {
@@ -309,86 +313,85 @@
             font-size: 1.2rem;
         }
         
+        .contact-card p {
+            margin-bottom: 0.5rem;
+        }
+        
         /* Footer */
         .footer {
             background-color: var(--dark-gray);
-            padding: 2rem;
+            padding: 2rem 1.5rem;
             text-align: center;
             border-top: 1px solid var(--light-gray);
-        }
-        
-        .footer-text {
-            color: var(--white);
-            opacity: 0.7;
             font-size: 0.9rem;
         }
         
-        /* Animations */
-        @keyframes fadeIn {
-            from {
-                opacity: 0;
-                transform: translateY(20px);
-            }
-            to {
-                opacity: 1;
-                transform: translateY(0);
-            }
-        }
-        
-        .fade-in {
-            animation: fadeIn 0.6s forwards;
-        }
-        
-        .delay-1 {
-            animation-delay: 0.2s;
-        }
-        
-        .delay-2 {
-            animation-delay: 0.4s;
-        }
-        
-        .delay-3 {
-            animation-delay: 0.6s;
-        }
-        
-        /* Responsive */
-        @media (max-width: 768px) {
-            .nav-links {
-                position: fixed;
-                top: 70px;
-                left: 0;
-                width: 100%;
-                background-color: var(--black);
-                flex-direction: column;
-                align-items: center;
-                padding: 1rem 0;
-                gap: 1rem;
-                transform: translateY(-100%);
-                opacity: 0;
-                transition: var(--transition);
-                z-index: 999;
-                border-bottom: 1px solid var(--light-gray);
-            }
-            
-            .nav-links.active {
-                transform: translateY(0);
-                opacity: 1;
-            }
-        
+        /* Responsive Adjustments */
+        @media (min-width: 768px) {
             .mobile-menu-btn {
-                display: block;
+                display: none;
             }
             
-            .section-title {
-                font-size: 2rem;
+            .nav-links {
+                position: static;
+                flex-direction: row;
+                transform: none;
+                opacity: 1;
+                display: flex;
+                width: auto;
+                background: transparent;
+                border: none;
+                padding: 0;
+                gap: 2rem;
+            }
+            
+            .nav-link {
+                width: auto;
+                padding: 0.5rem 0;
+                position: relative;
+            }
+            
+            .nav-link::after {
+                content: '';
+                position: absolute;
+                bottom: 0;
+                left: 0;
+                width: 0;
+                height: 2px;
+                background-color: var(--mustard);
+                transition: width 0.3s ease;
+            }
+            
+            .nav-link:hover::after {
+                width: 100%;
+            }
+            
+            .section {
+                padding: 7rem 2rem 3rem;
             }
             
             .hero-title {
-                font-size: 2.2rem;
+                font-size: 2.8rem;
             }
             
             .hero-subtitle {
-                font-size: 1rem;
+                font-size: 1.2rem;
+            }
+            
+            .contact-info {
+                grid-template-columns: repeat(3, 1fr);
+            }
+            
+            .submit-btn {
+                width: auto;
+                padding: 1rem 2.5rem;
+                margin-left: auto;
+                margin-right: auto;
+                display: inline-flex;
+            }
+            
+            .form-container {
+                padding: 2rem;
             }
         }
     </style>
@@ -398,7 +401,7 @@
     <div class="nav-container">
         <nav class="nav">
             <a href="#hero" class="logo"><span></span>BlackFrame</a>
-            <button class="mobile-menu-btn">☰</button>
+            <button class="mobile-menu-btn" aria-label="Menu">☰</button>
             <div class="nav-links">
                 <a href="#hero" class="nav-link">Início</a>
                 <a href="#form" class="nav-link">Formulário</a>
@@ -408,18 +411,18 @@
     </div>
     
     <!-- Hero Section -->
-    <section id="hero" class="section active">
-        <div class="hero-content fade-in">
+    <section id="hero" class="section">
+        <div class="hero-content">
             <h1 class="hero-title">Criamos vídeos que <span style="color: var(--mustard)">vendem</span></h1>
-            <p class="hero-subtitle delay-1">Preencha nosso briefing e nos ajude a entender seu negócio para criarmos conteúdo que realmente converte</p>
+            <p class="hero-subtitle">Preencha nosso briefing e nos ajude a entender seu negócio para criarmos conteúdo que realmente converte</p>
         </div>
-        <a href="#form" class="scroll-down delay-2">↓</a>
+        <button class="scroll-down" aria-label="Role para baixo">↓</button>
     </section>
     
     <!-- Form Section -->
     <section id="form" class="section">
         <h2 class="section-title">Briefing Completo</h2>
-        <div class="form-container fade-in">
+        <div class="form-container">
             <form id="businessForm">
                 <div class="form-group">
                     <label for="companyName" class="form-label">1. Qual o nome da sua empresa ou marca?</label>
@@ -441,19 +444,19 @@
                     <div class="radio-group">
                         <label class="radio-option">
                             <input type="radio" name="socialMediaFrequency" value="Sim, diariamente" class="radio-input" required>
-                            Sim, diariamente
+                            <span>Sim, diariamente</span>
                         </label>
                         <label class="radio-option">
                             <input type="radio" name="socialMediaFrequency" value="Sim, semanalmente" class="radio-input">
-                            Sim, semanalmente
+                            <span>Sim, semanalmente</span>
                         </label>
                         <label class="radio-option">
                             <input type="radio" name="socialMediaFrequency" value="Sim, mas irregularmente" class="radio-input">
-                            Sim, mas irregularmente
+                            <span>Sim, mas irregularmente</span>
                         </label>
                         <label class="radio-option">
                             <input type="radio" name="socialMediaFrequency" value="Não" class="radio-input">
-                            Não
+                            <span>Não</span>
                         </label>
                     </div>
                 </div>
@@ -463,19 +466,21 @@
                     <div class="checkbox-group">
                         <label class="checkbox-option">
                             <input type="checkbox" name="socialMedia[]" value="Instagram" class="checkbox-input">
-                            Instagram
+                            <span class="checkbox-option-text">Instagram</span>
                         </label>
                         <label class="checkbox-option">
                             <input type="checkbox" name="socialMedia[]" value="Facebook" class="checkbox-input">
-                            Facebook
+                            <span class="checkbox-option-text">Facebook</span>
                         </label>
                         <label class="checkbox-option">
                             <input type="checkbox" name="socialMedia[]" value="TikTok" class="checkbox-input">
-                            TikTok
+                            <span class="checkbox-option-text">TikTok</span>
                         </label>
                         <label class="checkbox-option">
                             <input type="checkbox" name="socialMedia[]" value="Outra" class="checkbox-input" id="otherSocialMediaCheck">
-                            Outra: <input type="text" name="otherSocialMedia" class="form-input" style="width: auto; display: inline-block; margin-left: 10px;" id="otherSocialMediaText" disabled>
+                            <span class="checkbox-option-text">
+                                Outra: <input type="text" name="otherSocialMedia" class="form-input" style="flex: 1; margin-left: 10px; padding: 0.5rem;" id="otherSocialMediaText" disabled>
+                            </span>
                         </label>
                     </div>
                 </div>
@@ -485,19 +490,19 @@
                     <div class="radio-group">
                         <label class="radio-option">
                             <input type="radio" name="videoObjective" value="Aumentar vendas" class="radio-input" required>
-                            Aumentar vendas
+                            <span>Aumentar vendas</span>
                         </label>
                         <label class="radio-option">
                             <input type="radio" name="videoObjective" value="Ganhar seguidores" class="radio-input">
-                            Ganhar seguidores
+                            <span>Ganhar seguidores</span>
                         </label>
                         <label class="radio-option">
                             <input type="radio" name="videoObjective" value="Mostrar meu produto/serviço" class="radio-input">
-                            Mostrar meu produto/serviço
+                            <span>Mostrar meu produto/serviço</span>
                         </label>
                         <label class="radio-option">
                             <input type="radio" name="videoObjective" value="Reforçar a marca" class="radio-input">
-                            Reforçar a marca
+                            <span>Reforçar a marca</span>
                         </label>
                     </div>
                 </div>
@@ -512,11 +517,11 @@
                     <div class="radio-group">
                         <label class="radio-option">
                             <input type="radio" name="recordingLocation" value="Sim, tenho local" class="radio-input" required>
-                            Sim, tenho local
+                            <span>Sim, tenho local</span>
                         </label>
                         <label class="radio-option">
                             <input type="radio" name="recordingLocation" value="Não, preciso de sugestões" class="radio-input">
-                            Não, preciso de sugestões
+                            <span>Não, preciso de sugestões</span>
                         </label>
                     </div>
                 </div>
@@ -526,15 +531,15 @@
                     <div class="radio-group">
                         <label class="radio-option">
                             <input type="radio" name="appearancePreference" value="Prefiro aparecer" class="radio-input" required>
-                            Prefiro aparecer
+                            <span>Prefiro aparecer</span>
                         </label>
                         <label class="radio-option">
                             <input type="radio" name="appearancePreference" value="Prefiro só imagens do local/produto" class="radio-input">
-                            Prefiro só imagens do local/produto
+                            <span>Prefiro só imagens do local/produto</span>
                         </label>
                         <label class="radio-option">
                             <input type="radio" name="appearancePreference" value="Ambas opções" class="radio-input">
-                            Ambas opções
+                            <span>Ambas opções</span>
                         </label>
                     </div>
                 </div>
@@ -573,17 +578,17 @@
     <!-- Contact Section -->
     <section id="contact" class="section">
         <h2 class="section-title">Contato</h2>
-        <div class="contact-info fade-in">
-            <div class="contact-card delay-1">
+        <div class="contact-info">
+            <div class="contact-card">
                 <h3 class="contact-title">WhatsApp</h3>
                 <p>(87) 99992-9161</p>
                 <p>(75) 99150-2902</p>
             </div>
-            <div class="contact-card delay-2">
+            <div class="contact-card">
                 <h3 class="contact-title">Email</h3>
                 <p>contato@blackframe.com</p>
             </div>
-            <div class="contact-card delay-3">
+            <div class="contact-card">
                 <h3 class="contact-title">Horário</h3>
                 <p>Segunda a Sexta: 9h às 18h</p>
                 <p>Sábado: 9h às 13h</p>
@@ -597,145 +602,167 @@
     </footer>
     
     <script>
-        // Mobile Menu Toggle
-        const mobileMenuBtn = document.querySelector('.mobile-menu-btn');
-        const navLinks = document.querySelector('.nav-links');
-        
-        mobileMenuBtn.addEventListener('click', () => {
-            navLinks.classList.toggle('active');
-        });
-        
-        // Smooth scrolling for navigation links
-        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
-            anchor.addEventListener('click', function(e) {
-                e.preventDefault();
-                
-                navLinks.classList.remove('active');
-                
-                const targetId = this.getAttribute('href');
-                const targetElement = document.querySelector(targetId);
-                
-                window.scrollTo({
-                    top: targetElement.offsetTop - 70,
-                    behavior: 'smooth'
+        // Aguarda o DOM estar completamente carregado
+        document.addEventListener('DOMContentLoaded', function() {
+            // Mobile Menu Toggle
+            const mobileMenuBtn = document.querySelector('.mobile-menu-btn');
+            const navLinks = document.querySelector('.nav-links');
+            
+            if(mobileMenuBtn && navLinks) {
+                mobileMenuBtn.addEventListener('click', function() {
+                    navLinks.classList.toggle('active');
+                    this.setAttribute('aria-expanded', navLinks.classList.contains('active'));
                 });
                 
-                // Update URL without reload
-                history.pushState(null, null, targetId);
-            });
-        });
-        
-        // Section animation on scroll
-        const sections = document.querySelectorAll('.section');
-        
-        const observerOptions = {
-            threshold: 0.1
-        };
-        
-        const observer = new IntersectionObserver((entries) => {
-            entries.forEach(entry => {
-                if (entry.isIntersecting) {
-                    entry.target.classList.add('active');
-                }
-            });
-        }, observerOptions);
-        
-        sections.forEach(section => {
-            observer.observe(section);
-        });
-        
-        // Enable/disable other social media text input based on checkbox
-        const otherSocialMediaCheck = document.getElementById('otherSocialMediaCheck');
-        const otherSocialMediaText = document.getElementById('otherSocialMediaText');
-        
-        otherSocialMediaCheck.addEventListener('change', function() {
-            otherSocialMediaText.disabled = !this.checked;
-            if (!this.checked) {
-                otherSocialMediaText.value = '';
-            }
-        });
-        
-        // Form submission
-        const form = document.getElementById('businessForm');
-        
-        form.addEventListener('submit', function(e) {
-            e.preventDefault();
-            
-            // Validate required fields
-            const requiredFields = form.querySelectorAll('[required]');
-            let isValid = true;
-            
-            requiredFields.forEach(field => {
-                if (!field.value) {
-                    field.style.borderColor = 'red';
-                    isValid = false;
-                } else {
-                    field.style.borderColor = '';
-                }
-            });
-            
-            if (!isValid) {
-                alert('Por favor, preencha todos os campos obrigatórios.');
-                return;
+                // Fechar menu ao clicar em um link
+                document.querySelectorAll('.nav-link').forEach(link => {
+                    link.addEventListener('click', () => {
+                        navLinks.classList.remove('active');
+                        mobileMenuBtn.setAttribute('aria-expanded', 'false');
+                    });
+                });
             }
             
-            // Collect form data
-            const formData = new FormData(form);
-            const formObject = {};
-            
-            // Handle checkboxes
-            const socialMedia = [];
-            formData.getAll('socialMedia[]').forEach(value => {
-                if (value === 'Outra') {
-                    const otherValue = formData.get('otherSocialMedia');
-                    if (otherValue) socialMedia.push(`Outra: ${otherValue}`);
-                } else {
-                    socialMedia.push(value);
-                }
+            // Smooth scrolling for navigation links
+            document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+                anchor.addEventListener('click', function(e) {
+                    e.preventDefault();
+                    
+                    const targetId = this.getAttribute('href');
+                    const targetElement = document.querySelector(targetId);
+                    
+                    if(targetElement) {
+                        window.scrollTo({
+                            top: targetElement.offsetTop - 70,
+                            behavior: 'smooth'
+                        });
+                        
+                        // Update URL without reload
+                        history.pushState(null, null, targetId);
+                    }
+                });
             });
             
-            formObject.socialMedia = socialMedia.length > 0 ? socialMedia.join(', ') : 'Nenhuma';
-            
-            // Add other fields
-            for (let [key, value] of formData.entries()) {
-                if (key !== 'socialMedia[]' && key !== 'otherSocialMedia') {
-                    formObject[key] = value || 'Não informado';
-                }
+            // Scroll down button
+            const scrollDownBtn = document.querySelector('.scroll-down');
+            if(scrollDownBtn) {
+                scrollDownBtn.addEventListener('click', function() {
+                    const formSection = document.querySelector('#form');
+                    if(formSection) {
+                        window.scrollTo({
+                            top: formSection.offsetTop - 70,
+                            behavior: 'smooth'
+                        });
+                    }
+                });
             }
             
-            // Format the message for WhatsApp with better structure
-            let whatsappMessage = `*📋 Novo Briefing - BlackFrame*%0A%0A`;
+            // Enable/disable other social media text input
+            const otherSocialMediaCheck = document.getElementById('otherSocialMediaCheck');
+            const otherSocialMediaText = document.getElementById('otherSocialMediaText');
             
-            whatsappMessage += `*1️⃣ Nome da Empresa/Marca*%0A${formObject.companyName}%0A%0A`;
-            whatsappMessage += `*2️⃣ Principal Produto/Serviço*%0A${formObject.mainProduct}%0A%0A`;
-            whatsappMessage += `*3️⃣ Público-Alvo*%0A${formObject.targetAudience}%0A%0A`;
-            whatsappMessage += `*4️⃣ Já anuncia nas redes sociais?*%0A${formObject.socialMediaFrequency}%0A%0A`;
-            whatsappMessage += `*5️⃣ Redes Sociais Utilizadas*%0A${formObject.socialMedia}%0A%0A`;
-            whatsappMessage += `*6️⃣ Objetivo dos Vídeos*%0A${formObject.videoObjective}%0A%0A`;
-            whatsappMessage += `*7️⃣ Mensagem de Promoção*%0A${formObject.promotionMessage}%0A%0A`;
-            whatsappMessage += `*8️⃣ Local para Gravação*%0A${formObject.recordingLocation}%0A%0A`;
-            whatsappMessage += `*9️⃣ Preferência de Aparição*%0A${formObject.appearancePreference}%0A%0A`;
-            whatsappMessage += `*🔟 Material Existente*%0A${formObject.existingMaterial}%0A%0A`;
-            whatsappMessage += `*1️⃣1️⃣ Cidade*%0A${formObject.city}%0A%0A`;
-            whatsappMessage += `*1️⃣2️⃣ Conteúdo a Evitar*%0A${formObject.avoidContent}%0A%0A`;
-            whatsappMessage += `*1️⃣3️⃣ Referências nas Redes*%0A${formObject.socialMediaReference}%0A%0A`;
+            if(otherSocialMediaCheck && otherSocialMediaText) {
+                otherSocialMediaCheck.addEventListener('change', function() {
+                    otherSocialMediaText.disabled = !this.checked;
+                    if (!this.checked) {
+                        otherSocialMediaText.value = '';
+                    }
+                });
+            }
             
-            // Encode the message for URL
-            const encodedMessage = encodeURIComponent(whatsappMessage);
+            // Form submission
+            const form = document.getElementById('businessForm');
             
-            // Send to both WhatsApp numbers
-            const whatsappNumbers = ['87999929161', '75991502902'];
-            
-            whatsappNumbers.forEach(number => {
-                const whatsappUrl = `https://wa.me/55${number}?text=${encodedMessage}`;
-                window.open(whatsappUrl, '_blank');
-            });
-            
-            // Show success message
-            alert('Formulário enviado com sucesso! Você será redirecionado para o WhatsApp.');
-            
-            // Reset form
-            form.reset();
+            if(form) {
+                form.addEventListener('submit', function(e) {
+                    e.preventDefault();
+                    
+                    // Validate required fields
+                    const requiredFields = form.querySelectorAll('[required]');
+                    let isValid = true;
+                    
+                    requiredFields.forEach(field => {
+                        if (!field.value.trim()) {
+                            field.style.borderColor = 'red';
+                            isValid = false;
+                            
+                            // Adiciona evento para remover o destaque quando o usuário começa a digitar
+                            field.addEventListener('input', function() {
+                                if(this.value.trim()) {
+                                    this.style.borderColor = '';
+                                }
+                            });
+                        }
+                    });
+                    
+                    if (!isValid) {
+                        alert('Por favor, preencha todos os campos obrigatórios.');
+                        return;
+                    }
+                    
+                    // Collect form data
+                    const formData = new FormData(form);
+                    const formObject = {};
+                    
+                    // Handle checkboxes
+                    const socialMedia = [];
+                    formData.getAll('socialMedia[]').forEach(value => {
+                        if (value === 'Outra') {
+                            const otherValue = formData.get('otherSocialMedia');
+                            if (otherValue && otherValue.trim()) {
+                                socialMedia.push(`Outra: ${otherValue.trim()}`);
+                            }
+                        } else if (value) {
+                            socialMedia.push(value);
+                        }
+                    });
+                    
+                    formObject.socialMedia = socialMedia.length > 0 ? socialMedia.join(', ') : 'Nenhuma';
+                    
+                    // Add other fields
+                    for (let [key, value] of formData.entries()) {
+                        if (key !== 'socialMedia[]' && key !== 'otherSocialMedia') {
+                            formObject[key] = value.trim() || 'Não informado';
+                        }
+                    }
+                    
+                    // Format the WhatsApp message
+                    let whatsappMessage = `*NOVO BRIEFING - BLACKFRAME*\n\n`;
+                    whatsappMessage += `*Nome da Empresa/Marca:*\n${formObject.companyName}\n\n`;
+                    whatsappMessage += `*Principal Produto/Serviço:*\n${formObject.mainProduct}\n\n`;
+                    whatsappMessage += `*Público-Alvo:*\n${formObject.targetAudience}\n\n`;
+                    whatsappMessage += `*Já anuncia nas redes sociais?*\n${formObject.socialMediaFrequency}\n\n`;
+                    whatsappMessage += `*Redes Sociais Utilizadas:*\n${formObject.socialMedia}\n\n`;
+                    whatsappMessage += `*Objetivo dos Vídeos:*\n${formObject.videoObjective}\n\n`;
+                    whatsappMessage += `*Mensagem de Promoção:*\n${formObject.promotionMessage}\n\n`;
+                    whatsappMessage += `*Local para Gravação:*\n${formObject.recordingLocation}\n\n`;
+                    whatsappMessage += `*Preferência de Aparição:*\n${formObject.appearancePreference}\n\n`;
+                    whatsappMessage += `*Material Existente:*\n${formObject.existingMaterial}\n\n`;
+                    whatsappMessage += `*Cidade:*\n${formObject.city}\n\n`;
+                    whatsappMessage += `*Conteúdo a Evitar:*\n${formObject.avoidContent}\n\n`;
+                    whatsappMessage += `*Referências nas Redes:*\n${formObject.socialMediaReference}`;
+                    
+                    // Encode for WhatsApp
+                    const encodedMessage = encodeURIComponent(whatsappMessage)
+                        .replace(/\*/g, '%2A')  // Asteriscos para negrito
+                        .replace(/\n/g, '%0A');  // Quebras de linha
+                    
+                    // Send to WhatsApp numbers
+                    const whatsappNumbers = ['87999929161', '75991502902'];
+                    
+                    // Abre apenas o primeiro número para evitar popups múltiplos
+                    if(whatsappNumbers.length > 0) {
+                        const whatsappUrl = `https://wa.me/55${whatsappNumbers[0]}?text=${encodedMessage}`;
+                        window.open(whatsappUrl, '_blank');
+                    }
+                    
+                    // Show success message
+                    alert('Formulário enviado com sucesso! Você será redirecionado para o WhatsApp.');
+                    
+                    // Reset form
+                    form.reset();
+                });
+            }
         });
     </script>
 </body>
