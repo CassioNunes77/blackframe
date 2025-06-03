@@ -1,0 +1,1030 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Black Frame - Sua marca merece ser vista</title>
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;600;700&display=swap">
+    <style>
+        :root {
+            --black: #000000;
+            --dark-gray: #1a1a1a;
+            --medium-gray: #333333;
+            --light-gray: #4d4d4d;
+            --white: #ffffff;
+            --yellow: #FFD700;
+            --mustard: #D4A017;
+        }
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            scroll-behavior: smooth;
+        }
+        
+        body {
+            font-family: 'Montserrat', sans-serif;
+            background-color: var(--black);
+            color: var(--white);
+            overflow-x: hidden;
+        }
+        
+        /* Navigation */
+        nav {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            background-color: rgba(0, 0, 0, 0.9);
+            z-index: 1000;
+            padding: 1rem 2rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            transition: all 0.3s ease;
+        }
+        
+        nav.scrolled {
+            padding: 0.5rem 2rem;
+            background-color: rgba(0, 0, 0, 0.95);
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.3);
+        }
+        
+        .logo {
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: var(--white);
+            text-decoration: none;
+        }
+        
+        .logo span {
+            color: var(--mustard);
+        }
+        
+        .nav-links {
+            display: flex;
+            list-style: none;
+        }
+        
+        .nav-links li {
+            margin-left: 2rem;
+        }
+        
+        .nav-links a {
+            color: var(--white);
+            text-decoration: none;
+            font-weight: 600;
+            transition: color 0.3s ease;
+            position: relative;
+        }
+        
+        .nav-links a:hover {
+            color: var(--mustard);
+        }
+        
+        .nav-links a::after {
+            content: '';
+            position: absolute;
+            width: 0;
+            height: 2px;
+            bottom: -5px;
+            left: 0;
+            background-color: var(--mustard);
+            transition: width 0.3s ease;
+        }
+        
+        .nav-links a:hover::after {
+            width: 100%;
+        }
+        
+        .mobile-menu-btn {
+            display: none;
+            background: none;
+            border: none;
+            color: var(--white);
+            font-size: 1.5rem;
+            cursor: pointer;
+        }
+        
+        /* Hero Section */
+        .hero {
+            height: 100vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+            padding: 0 2rem;
+            background: linear-gradient(rgba(0, 0, 0, 0.7), rgba(0, 0, 0, 0.7)), url('https://images.unsplash.com/photo-1579389083078-4e7018379f7e?ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80') no-repeat center center/cover;
+            position: relative;
+        }
+        
+        .hero h1 {
+            font-size: 3.5rem;
+            margin-bottom: 1rem;
+            opacity: 0;
+            transform: translateY(20px);
+            animation: fadeInUp 1s ease forwards;
+        }
+        
+        .hero h1 span {
+            color: var(--mustard);
+        }
+        
+        .hero p {
+            font-size: 1.2rem;
+            max-width: 800px;
+            margin-bottom: 2rem;
+            opacity: 0;
+            transform: translateY(20px);
+            animation: fadeInUp 1s ease 0.3s forwards;
+        }
+        
+        .cta-button {
+            display: inline-block;
+            background-color: var(--mustard);
+            color: var(--black);
+            padding: 0.8rem 2rem;
+            border-radius: 30px;
+            text-decoration: none;
+            font-weight: 600;
+            transition: all 0.3s ease;
+            opacity: 0;
+            transform: translateY(20px);
+            animation: fadeInUp 1s ease 0.6s forwards;
+        }
+        
+        .cta-button:hover {
+            background-color: var(--white);
+            transform: translateY(-3px);
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
+        }
+        
+        .scroll-down {
+            position: absolute;
+            bottom: 30px;
+            left: 50%;
+            transform: translateX(-50%);
+            color: var(--white);
+            font-size: 1.5rem;
+            animation: bounce 2s infinite;
+            cursor: pointer;
+        }
+        
+        /* Sections */
+        section {
+            padding: 6rem 2rem;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+        }
+        
+        .section-title {
+            font-size: 2.5rem;
+            margin-bottom: 3rem;
+            text-align: center;
+            position: relative;
+        }
+        
+        .section-title::after {
+            content: '';
+            position: absolute;
+            width: 80px;
+            height: 4px;
+            background-color: var(--mustard);
+            bottom: -15px;
+            left: 50%;
+            transform: translateX(-50%);
+        }
+        
+        .section-content {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+        
+        /* About Section */
+        .about {
+            background-color: var(--dark-gray);
+        }
+        
+        .about-content {
+            display: flex;
+            align-items: center;
+            gap: 3rem;
+        }
+        
+        .about-text {
+            flex: 1;
+            opacity: 0;
+            transform: translateX(-20px);
+            transition: all 0.6s ease;
+        }
+        
+        .about-text.visible {
+            opacity: 1;
+            transform: translateX(0);
+        }
+        
+        .about-text p {
+            margin-bottom: 1.5rem;
+            line-height: 1.6;
+        }
+        
+        .about-image {
+            flex: 1;
+            opacity: 0;
+            transform: translateX(20px);
+            transition: all 0.6s ease;
+        }
+        
+        .about-image.visible {
+            opacity: 1;
+            transform: translateX(0);
+        }
+        
+        .about-image img {
+            width: 100%;
+            border-radius: 10px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+        }
+        
+        /* Package Section */
+        .package {
+            background-color: var(--black);
+        }
+        
+        .package-highlight {
+            color: var(--mustard);
+            font-weight: 700;
+        }
+        
+        .package-container {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+        
+        .package-card {
+            background-color: var(--medium-gray);
+            border-radius: 10px;
+            padding: 2rem;
+            width: 100%;
+            max-width: 800px;
+            margin-bottom: 2rem;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+            transform: scale(0.95);
+            opacity: 0;
+            transition: all 0.6s ease;
+        }
+        
+        .package-card.visible {
+            transform: scale(1);
+            opacity: 1;
+        }
+        
+        .package-card h3 {
+            font-size: 1.8rem;
+            margin-bottom: 1.5rem;
+            color: var(--mustard);
+        }
+        
+        .package-features {
+            list-style: none;
+            margin-bottom: 2rem;
+        }
+        
+        .package-features li {
+            margin-bottom: 0.8rem;
+            position: relative;
+            padding-left: 1.5rem;
+        }
+        
+        .package-features li::before {
+            content: '✓';
+            color: var(--mustard);
+            position: absolute;
+            left: 0;
+        }
+        
+        .package-price {
+            font-size: 2rem;
+            font-weight: 700;
+            margin-bottom: 1.5rem;
+            color: var(--mustard);
+        }
+        
+        /* Why Section */
+        .why {
+            background-color: var(--dark-gray);
+        }
+        
+        .why-points {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+        }
+        
+        .why-point {
+            background-color: var(--medium-gray);
+            padding: 2rem;
+            border-radius: 10px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+            transform: translateY(20px);
+            opacity: 0;
+            transition: all 0.6s ease;
+        }
+        
+        .why-point.visible {
+            transform: translateY(0);
+            opacity: 1;
+        }
+        
+        .why-point h3 {
+            color: var(--mustard);
+            margin-bottom: 1rem;
+        }
+        
+        /* Team Section */
+        .team {
+            background-color: var(--black);
+        }
+        
+        .team-members {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 2rem;
+        }
+        
+        .team-member {
+            background-color: var(--medium-gray);
+            padding: 2rem;
+            border-radius: 10px;
+            text-align: center;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+            transform: scale(0.95);
+            opacity: 0;
+            transition: all 0.6s ease;
+        }
+        
+        .team-member.visible {
+            transform: scale(1);
+            opacity: 1;
+        }
+        
+        .team-member-icon {
+            font-size: 3rem;
+            color: var(--mustard);
+            margin-bottom: 1rem;
+        }
+        
+        .team-member h3 {
+            margin-bottom: 0.5rem;
+        }
+        
+        .team-member p {
+            color: var(--light-gray);
+        }
+        
+        /* FAQ Section */
+        .faq {
+            background-color: var(--dark-gray);
+        }
+        
+        .faq-container {
+            max-width: 800px;
+            margin: 0 auto;
+        }
+        
+        .faq-item {
+            margin-bottom: 1rem;
+            border-bottom: 1px solid var(--light-gray);
+            overflow: hidden;
+        }
+        
+        .faq-question {
+            padding: 1.5rem 0;
+            cursor: pointer;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            font-weight: 600;
+            transition: all 0.3s ease;
+        }
+        
+        .faq-question:hover {
+            color: var(--mustard);
+        }
+        
+        .faq-question::after {
+            content: '+';
+            font-size: 1.5rem;
+            color: var(--mustard);
+            transition: all 0.3s ease;
+        }
+        
+        .faq-item.active .faq-question::after {
+            content: '-';
+        }
+        
+        .faq-answer {
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.3s ease;
+            padding: 0 1rem;
+        }
+        
+        .faq-item.active .faq-answer {
+            max-height: 500px;
+            padding-bottom: 1.5rem;
+        }
+        
+        /* Contact Section */
+        .contact {
+            background-color: var(--black);
+        }
+        
+        .contact-container {
+            display: flex;
+            gap: 3rem;
+        }
+        
+        .contact-info {
+            flex: 1;
+        }
+        
+        .contact-info h3 {
+            color: var(--mustard);
+            margin-bottom: 1.5rem;
+            font-size: 1.5rem;
+        }
+        
+        .contact-method {
+            display: flex;
+            align-items: center;
+            margin-bottom: 1.5rem;
+        }
+        
+        .contact-icon {
+            font-size: 1.5rem;
+            color: var(--mustard);
+            margin-right: 1rem;
+            width: 40px;
+            text-align: center;
+        }
+        
+        .contact-form {
+            flex: 1;
+            background-color: var(--medium-gray);
+            padding: 2rem;
+            border-radius: 10px;
+        }
+        
+        .form-group {
+            margin-bottom: 1.5rem;
+        }
+        
+        .form-group label {
+            display: block;
+            margin-bottom: 0.5rem;
+        }
+        
+        .form-group input,
+        .form-group textarea {
+            width: 100%;
+            padding: 0.8rem;
+            border: none;
+            border-radius: 5px;
+            background-color: var(--dark-gray);
+            color: var(--white);
+        }
+        
+        .form-group textarea {
+            height: 150px;
+            resize: vertical;
+        }
+        
+        .submit-btn {
+            background-color: var(--mustard);
+            color: var(--black);
+            border: none;
+            padding: 0.8rem 2rem;
+            border-radius: 30px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+        
+        .submit-btn:hover {
+            background-color: var(--white);
+            transform: translateY(-3px);
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+        }
+        
+        /* Footer */
+        footer {
+            background-color: var(--dark-gray);
+            padding: 2rem;
+            text-align: center;
+        }
+        
+        .footer-logo {
+            font-size: 1.5rem;
+            font-weight: 700;
+            margin-bottom: 1rem;
+        }
+        
+        .footer-logo span {
+            color: var(--mustard);
+        }
+        
+        .footer-links {
+            display: flex;
+            justify-content: center;
+            list-style: none;
+            margin-bottom: 1.5rem;
+        }
+        
+        .footer-links li {
+            margin: 0 1rem;
+        }
+        
+        .footer-links a {
+            color: var(--white);
+            text-decoration: none;
+            transition: color 0.3s ease;
+        }
+        
+        .footer-links a:hover {
+            color: var(--mustard);
+        }
+        
+        .social-links {
+            display: flex;
+            justify-content: center;
+            list-style: none;
+            margin-bottom: 1.5rem;
+        }
+        
+        .social-links li {
+            margin: 0 0.5rem;
+        }
+        
+        .social-links a {
+            display: inline-block;
+            width: 40px;
+            height: 40px;
+            background-color: var(--medium-gray);
+            color: var(--white);
+            border-radius: 50%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            transition: all 0.3s ease;
+        }
+        
+        .social-links a:hover {
+            background-color: var(--mustard);
+            color: var(--black);
+            transform: translateY(-3px);
+        }
+        
+        .copyright {
+            color: var(--light-gray);
+            font-size: 0.9rem;
+        }
+        
+        /* Animations */
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+        
+        @keyframes bounce {
+            0%, 20%, 50%, 80%, 100% {
+                transform: translateY(0) translateX(-50%);
+            }
+            40% {
+                transform: translateY(-20px) translateX(-50%);
+            }
+            60% {
+                transform: translateY(-10px) translateX(-50%);
+            }
+        }
+        
+        /* Responsive */
+        @media (max-width: 992px) {
+            .about-content {
+                flex-direction: column;
+            }
+            
+            .contact-container {
+                flex-direction: column;
+            }
+        }
+        
+        @media (max-width: 768px) {
+            .nav-links {
+                position: fixed;
+                top: 70px;
+                left: -100%;
+                width: 100%;
+                height: calc(100vh - 70px);
+                background-color: var(--black);
+                flex-direction: column;
+                align-items: center;
+                justify-content: center;
+                transition: all 0.5s ease;
+            }
+            
+            .nav-links.active {
+                left: 0;
+            }
+            
+            .nav-links li {
+                margin: 1.5rem 0;
+            }
+            
+            .mobile-menu-btn {
+                display: block;
+            }
+            
+            .hero h1 {
+                font-size: 2.5rem;
+            }
+            
+            .section-title {
+                font-size: 2rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Navigation -->
+    <nav id="navbar">
+        <a href="#home" class="logo">BLACK<span>FRAME</span></a>
+        <button class="mobile-menu-btn" id="mobileMenuBtn">☰</button>
+        <ul class="nav-links" id="navLinks">
+            <li><a href="#about">Sobre</a></li>
+            <li><a href="#package">Pacote</a></li>
+            <li><a href="#why">Por que funciona</a></li>
+            <li><a href="#team">Equipe</a></li>
+            <li><a href="#faq">Dúvidas</a></li>
+            <li><a href="#contact">Contato</a></li>
+        </ul>
+    </nav>
+    
+    <!-- Hero Section -->
+    <section class="hero" id="home">
+        <h1>Sua marca <span>merece ser vista</span></h1>
+        <p>A gente grava. Você vende.</p>
+        <a href="#contact" class="cta-button">Fale conosco</a>
+        <div class="scroll-down" id="scrollDown">↓</div>
+    </section>
+    
+    <!-- About Section -->
+    <section class="about" id="about">
+        <div class="section-content">
+            <h2 class="section-title">Sobre</h2>
+            <div class="about-content">
+                <div class="about-text">
+                    <p>A Black Frame é uma produtora inteligente e acessível, criada para empreendedores de atitude — pessoas que querem crescer, se destacar nas redes e atrair mais clientes sem precisar fazer grandes investimentos logo de início.</p>
+                    <p>Sabemos que o tempo e o dinheiro são preciosos, por isso desenvolvemos o Pacote Inicial Único: uma solução direta e eficaz para quem precisa dar o primeiro passo com impacto real na presença digital.</p>
+                </div>
+                <div class="about-image">
+                    <img src="https://images.unsplash.com/photo-1579389083078-4e7018379f7e?ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80" alt="Filmagem profissional">
+                </div>
+            </div>
+        </div>
+    </section>
+    
+    <!-- Package Section -->
+    <section class="package" id="package">
+        <div class="section-content">
+            <h2 class="section-title">O <span class="package-highlight">Pacote Inicial</span></h2>
+            <div class="package-container">
+                <div class="package-card">
+                    <h3>IMPULSO 3X</h3>
+                    <p>Um pacote direto ao ponto para você mostrar seu negócio em alto nível.</p>
+                    <ul class="package-features">
+                        <li>3 vídeos curtos (até 30 segundos)</li>
+                        <li>Gravação no seu espaço ou local combinado</li>
+                        <li>Roteiro simples e eficiente</li>
+                        <li>Orientação durante a filmagem</li>
+                        <li>Edição com legendas, música e identidade visual</li>
+                        <li>Entrega em até 7 dias úteis</li>
+                        <li>Formato otimizado para Instagram, Facebook e TikTok</li>
+                    </ul>
+                    <div class="package-price">R$ 670,00</div>
+                    <p>👉 Tudo que você precisa para começar a se destacar online.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+    
+    <!-- Why Section -->
+    <section class="why" id="why">
+        <div class="section-content">
+            <h2 class="section-title">Por que <span class="package-highlight">funciona</span>?</h2>
+            <div class="why-points">
+                <div class="why-point">
+                    <h3>Atraia novos clientes</h3>
+                    <p>Porque as pessoas compram com os olhos. Vídeos profissionais aumentam a credibilidade do seu negócio.</p>
+                </div>
+                <div class="why-point">
+                    <h3>Conteúdo para redes</h3>
+                    <p>Porque ninguém tem tempo para vídeos longos. Seus clientes preferem conteúdo rápido e objetivo.</p>
+                </div>
+                <div class="why-point">
+                    <h3>Confiança</h3>
+                    <p>Porque seu cliente precisa confiar no que vê. Vídeos profissionais transmitem profissionalismo.</p>
+                </div>
+                <div class="why-point">
+                    <h3>Simplicidade</h3>
+                    <p>Porque você só precisa de uma coisa: mostrar bem o que já faz de bom. Nós cuidamos do resto.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+    
+    <!-- Benefits Section -->
+    <section class="benefits">
+        <div class="section-content">
+            <h2 class="section-title">Benefícios <span class="package-highlight">claros</span></h2>
+            <div class="why-points">
+                <div class="why-point">
+                    <h3>🧲 Atração</h3>
+                    <p>Atraia novos clientes com vídeos profissionais</p>
+                </div>
+                <div class="why-point">
+                    <h3>📱 Conteúdo</h3>
+                    <p>Tenha conteúdos prontos para redes sociais</p>
+                </div>
+                <div class="why-point">
+                    <h3>📈 Engajamento</h3>
+                    <p>Aumente seu engajamento e alcance</p>
+                </div>
+                <div class="why-point">
+                    <h3>💼 Valorização</h3>
+                    <p>Valorize a imagem da sua empresa com um investimento acessível</p>
+                </div>
+                <div class="why-point">
+                    <h3>💡 Simplicidade</h3>
+                    <p>Não precisa saber nada de vídeo — a gente cuida de tudo</p>
+                </div>
+                <div class="why-point">
+                    <h3>🚀 Primeiro passo</h3>
+                    <p>É o começo para transformar sua comunicação</p>
+                </div>
+            </div>
+        </div>
+    </section>
+    
+    <!-- Team Section -->
+    <section class="team" id="team">
+        <div class="section-content">
+            <h2 class="section-title">Quem vai te <span class="package-highlight">atender</span>?</h2>
+            <div class="team-members">
+                <div class="team-member">
+                    <div class="team-member-icon">🎬</div>
+                    <h3>Profissional de filmagem</h3>
+                    <p>Vai até você, filma, orienta e faz seu vídeo acontecer.</p>
+                </div>
+                <div class="team-member">
+                    <div class="team-member-icon">💬</div>
+                    <h3>Consultor</h3>
+                    <p>Vai te ouvir, entender seu negócio e facilitar todo o processo.</p>
+                </div>
+                <div class="team-member">
+                    <div class="team-member-icon">✂️</div>
+                    <h3>Editor</h3>
+                    <p>Vai deixar seu conteúdo pronto pra brilhar na internet.</p>
+                </div>
+            </div>
+            <p style="text-align: center; margin-top: 2rem;">Sem enrolação, sem complicação. Tudo rápido, profissional e com resultado.</p>
+        </div>
+    </section>
+    
+    <!-- FAQ Section -->
+    <section class="faq" id="faq">
+        <div class="section-content">
+            <h2 class="section-title">Dúvidas <span class="package-highlight">frequentes</span></h2>
+            <div class="faq-container">
+                <div class="faq-item">
+                    <div class="faq-question">Preciso ter roteiro pronto?</div>
+                    <div class="faq-answer">
+                        <p>Não. A gente te orienta em tudo. Você só precisa saber o que quer mostrar.</p>
+                    </div>
+                </div>
+                <div class="faq-item">
+                    <div class="faq-question">Preciso falar nos vídeos?</div>
+                    <div class="faq-answer">
+                        <p>Não é obrigatório. Pode ser apenas imagem com texto, música e destaque nos seus produtos ou serviços.</p>
+                    </div>
+                </div>
+                <div class="faq-item">
+                    <div class="faq-question">Quanto tempo demora?</div>
+                    <div class="faq-answer">
+                        <p>Gravamos rápido e entregamos em até 7 dias úteis.</p>
+                    </div>
+                </div>
+                <div class="faq-item">
+                    <div class="faq-question">E se eu gostar e quiser mais?</div>
+                    <div class="faq-answer">
+                        <p>Temos pacotes especiais para clientes que já passaram pelo Impulso 3X.</p>
+                    </div>
+                </div>
+                <div class="faq-item">
+                    <div class="faq-question">O que é o impulso 3X?</div>
+                    <div class="faq-answer">
+                        <p>Impulso 3X é o pacote inicial da Black Frame — pensado para dar um empurrão certeiro no seu negócio nas redes sociais, com três vídeos otimizados para atrair, engajar e vender.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    
+    <!-- Contact Section -->
+    <section class="contact" id="contact">
+        <div class="section-content">
+            <h2 class="section-title">Como <span class="package-highlight">contratar</span>?</h2>
+            <div class="contact-container">
+                <div class="contact-info">
+                    <h3>Entre em contato</h3>
+                    <div class="contact-method">
+                        <div class="contact-icon">📱</div>
+                        <div>
+                            <p><strong>WhatsApp</strong></p>
+                            <p>Mande uma mensagem agora mesmo</p>
+                        </div>
+                    </div>
+                    <div class="contact-method">
+                        <div class="contact-icon">✉️</div>
+                        <div>
+                            <p><strong>E-mail</strong></p>
+                            <p>hebertyhenrique.si@gmail.com</p>
+                        </div>
+                    </div>
+                    <div class="contact-method">
+                        <div class="contact-icon">📸</div>
+                        <div>
+                            <p><strong>Instagram</strong></p>
+                            <p>@blackframe_</p>
+                        </div>
+                    </div>
+                    <h3 style="margin-top: 2rem;">Processo simples</h3>
+                    <ol style="padding-left: 1.5rem; line-height: 1.6;">
+                        <li>Você entra em contato.</li>
+                        <li>A gente envia o orçamento e o link para pagamento.</li>
+                        <li>Agendamos a gravação.</li>
+                        <li>Você recebe seus vídeos prontos.</li>
+                        <li>Começa a atrair clientes com o conteúdo certo.</li>
+                    </ol>
+                </div>
+                <div class="contact-form">
+                    <h3>Mande uma mensagem</h3>
+                    <form id="contactForm">
+                        <div class="form-group">
+                            <label for="name">Nome</label>
+                            <input type="text" id="name" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="email">E-mail</label>
+                            <input type="email" id="email" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="message">Mensagem</label>
+                            <textarea id="message" required></textarea>
+                        </div>
+                        <button type="submit" class="submit-btn">Enviar mensagem</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </section>
+    
+    <!-- Footer -->
+    <footer>
+        <div class="footer-logo">BLACK<span>FRAME</span></div>
+        <ul class="footer-links">
+            <li><a href="#about">Sobre</a></li>
+            <li><a href="#package">Pacote</a></li>
+            <li><a href="#why">Por que funciona</a></li>
+            <li><a href="#team">Equipe</a></li>
+            <li><a href="#faq">Dúvidas</a></li>
+            <li><a href="#contact">Contato</a></li>
+        </ul>
+        <ul class="social-links">
+            <li><a href="#" aria-label="Instagram">📸</a></li>
+            <li><a href="#" aria-label="Facebook">👍</a></li>
+            <li><a href="#" aria-label="WhatsApp">📱</a></li>
+        </ul>
+        <p class="copyright">© 2023 Black Frame. Todos os direitos reservados.</p>
+    </footer>
+    
+    <script>
+        // Mobile Menu Toggle
+        const mobileMenuBtn = document.getElementById('mobileMenuBtn');
+        const navLinks = document.getElementById('navLinks');
+        
+        mobileMenuBtn.addEventListener('click', () => {
+            navLinks.classList.toggle('active');
+        });
+        
+        // Close mobile menu when clicking a link
+        document.querySelectorAll('.nav-links a').forEach(link => {
+            link.addEventListener('click', () => {
+                navLinks.classList.remove('active');
+            });
+        });
+        
+        // Navbar scroll effect
+        window.addEventListener('scroll', () => {
+            const navbar = document.getElementById('navbar');
+            if (window.scrollY > 50) {
+                navbar.classList.add('scrolled');
+            } else {
+                navbar.classList.remove('scrolled');
+            }
+        });
+        
+        // Smooth scrolling for anchor links
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function(e) {
+                e.preventDefault();
+                
+                const targetId = this.getAttribute('href');
+                const targetElement = document.querySelector(targetId);
+                
+                if (targetElement) {
+                    window.scrollTo({
+                        top: targetElement.offsetTop - 70,
+                        behavior: 'smooth'
+                    });
+                }
+            });
+        });
+        
+        // Scroll down button
+        const scrollDownBtn = document.getElementById('scrollDown');
+        if (scrollDownBtn) {
+            scrollDownBtn.addEventListener('click', () => {
+                window.scrollTo({
+                    top: window.innerHeight,
+                    behavior: 'smooth'
+                });
+            });
+        }
+        
+        // FAQ accordion
+        const faqItems = document.querySelectorAll('.faq-item');
+        faqItems.forEach(item => {
+            const question = item.querySelector('.faq-question');
+            question.addEventListener('click', () => {
+                item.classList.toggle('active');
+                
+                // Close other items
+                faqItems.forEach(otherItem => {
+                    if (otherItem !== item && otherItem.classList.contains('active')) {
+                        otherItem.classList.remove('active');
+                    }
+                });
+            });
+        });
+        
+        // Form submission
+        const contactForm = document.getElementById('contactForm');
+        if (contactForm) {
+            contactForm.addEventListener('submit', (e) => {
+                e.preventDefault();
+                alert('Mensagem enviada com sucesso! Entraremos em contato em breve.');
+                contactForm.reset();
+            });
+        }
+        
+        // Scroll animation
+        const animateOnScroll = () => {
+            const elements = document.querySelectorAll('.about-text, .about-image, .package-card, .why-point, .team-member');
+            
+            elements.forEach(element => {
+                const elementPosition = element.getBoundingClientRect().top;
+                const screenPosition = window.innerHeight / 1.2;
+                
+                if (elementPosition < screenPosition) {
+                    element.classList.add('visible');
+                }
+            });
+        };
+        
+        window.addEventListener('scroll', animateOnScroll);
+        window.addEventListener('load', animateOnScroll);
+    </script>
+</body>
+</html>
